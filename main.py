@@ -22,6 +22,9 @@ def main() -> None:
     if not client.connect():
         print(f"Failed to connect to IMD on port {port}")
         return
+    
+    
+    # comment out the following lines if you want to test with only one IMD connected (e.g. just address 1)
 
     try:
         while True:

@@ -67,6 +67,8 @@ class IMDClient:
     INVALID_RESISTANCE = 0xFFFF
     INFINITE_RESISTANCE = 0xEA60
 
+
+
     def __init__(
         self,
         port: str,

@@ -42,10 +42,12 @@ def main() -> None:
             
             status_1 = client.read_channel_status(IMD_1_ADDRESS)   
             register_1 = client._write_single_register(IMD_1_ADDRESS , client.REG_INSULATION_CONTROL, 0x0011)
-            # register_2 = client._write_single_register(IMD_2_ADDRESS , client.REG_INSULATION_CONTROL, 0x0010)
+            register_2 = client._write_single_register(IMD_2_ADDRESS , client.REG_INSULATION_CONTROL, 0x0012)
+
 
             # print(f"register_1 {IMD_1_ADDRESS}")
             # print(f"register_2 {IMD_2_ADDRESS}")
+            
                         
             enabled_ch1 = client.enable_insulation_monitoring(IMD_1_ADDRESS)
             enabled_ch2 = client.enable_insulation_monitoring(IMD_2_ADDRESS)

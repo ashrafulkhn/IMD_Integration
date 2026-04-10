@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
+
 from pymodbus.client import ModbusSerialClient
 from pymodbus.exceptions import ModbusException
 
@@ -22,6 +23,7 @@ class IMDChannelStatus:
     version_raw: Optional[int]
     version: Optional[str]
 
+
     def as_dict(self) -> Dict[str, Any]:
         return {
             "unit_id": self.unit_id,
@@ -38,8 +40,8 @@ class IMDChannelStatus:
             "resistance_valid": self.resistance_valid,
             "version_raw": self.version_raw,
             "version": self.version,
-            
             }
+            
         
 
 
@@ -138,9 +140,7 @@ class IMDClient:
         """
         # Voltage
         voltage_regs = self._read_holding_registers(unit_id, self.REG_BUS_VOLTAGE, 1)
-        # voltage_v = 0.1
         voltage_raw = voltage_regs[0] if voltage_regs else None
-        # voltage_raw = 10.0
         voltage_v = (voltage_raw / 10.0) if voltage_raw is not None else None
 
         # Positive insulation resistance
@@ -190,11 +190,11 @@ class IMDClient:
         Enable insulation monitoring for a given channel (unit ID).
 
         Manual examples write:
-        - Unit 1: value 0x0102
+        - Unit 1: value 0x0010
         - Unit 2: value 0x0012
         """
         if unit_id == 1:
-            value = 0x0010
+            value = 0x0011
         elif unit_id == 2:
             value = 0x0012
         else:

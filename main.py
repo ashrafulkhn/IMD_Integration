@@ -7,7 +7,7 @@ import time
 
 IMD_1_ADDRESS = 1
 IMD_2_ADDRESS = 2
-mk
+
 def main() -> None:
     """
     Example entrypoint for using the IMDClient.
@@ -17,7 +17,12 @@ def main() -> None:
     # TODO: update this to the correct serial port on your system, e.g. "COM3"
     port = "COM11"
 
-    client = IMDClient(port="com11", baudrate=9600, parity="N", stopbits=1, bytesize=8, timeout=1.0)   
+    client = IMDClient(port="com11",
+                       baudrate=9600,
+                       parity="N",
+                       stopbits=1.5,
+                       bytesize=8,
+                       timeout=2.0)   
 
     if not client.connect():
         print(f"Failed to connect to IMD on port {port}")
@@ -28,21 +33,23 @@ def main() -> None:
 
     try:
         while True:
-            # for i in range(3):
+            # for i in range(3): 
             print("--------------------------------")
             print(f"Attempt to enable insulation monitoring")
             print("--------------------------------")
 
             # Enable insulation monitoring on both channels
-            status_1 = client.read_channel_status(IMD_1_ADDRESS)
-            register_1 = client._write_single_register(IMD_1_ADDRESS, client.REG_INSULATION_CONTROL, 0x0010)
-            enabled_ch1 = client.enable_insulation_monitoring(IMD_1_ADDRESS)
-            # client.read_insulation_data(IMD_1_ADDRESS)
-            # raw = client.read_holding_registers(IMD_1_ADDRESS)
+            
+            status_1 = client.read_channel_status(IMD_1_ADDRESS)   
+            register_1 = client._write_single_register(IMD_1_ADDRESS , client.REG_INSULATION_CONTROL, 0x0011)
+            # register_2 = client._write_single_register(IMD_2_ADDRESS , client.REG_INSULATION_CONTROL, 0x0010)
 
+            # print(f"register_1 {IMD_1_ADDRESS}")
+            # print(f"register_2 {IMD_2_ADDRESS}")
+                        
+            enabled_ch1 = client.enable_insulation_monitoring(IMD_1_ADDRESS)
             enabled_ch2 = client.enable_insulation_monitoring(IMD_2_ADDRESS)
-            # client.read_insulation_data(IMD_2_ADDRESS)
-            # raw = client._read_holding_registers(IMD_2_ADDRESS)
+         
             print(f"Enable CH1 monitoring: {'success' if enabled_ch1 else 'failed'}")
             print(f"Enable CH2 monitoring: {'success' if enabled_ch2 else 'failed'}")
 

@@ -192,7 +192,7 @@ class IMDClient:
         Enable insulation monitoring for a given channel (unit ID).
 
         Manual examples write:
-        - Unit 1: value 0x0010
+        - Unit 1: value 0x0011
         - Unit 2: value 0x0012
         """
         if unit_id == 1:

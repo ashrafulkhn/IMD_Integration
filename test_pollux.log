@@ -1,0 +1,131 @@
+root@phyboard-pollux-imx8mp-3:p1# python3 main.py
+--------------------------------
+Attempt to enable insulation monitoring
+--------------------------------
+No response received after 3 retries, continue with next request
+Repeating....
+No response received after 3 retries, continue with next request
+No response received after 3 retries, continue with next request
+Enable CH1 monitoring: failed
+Enable CH2 monitoring: failed
+
+IMD1 status:
+{'monitoring_enabled': True,
+ 'neg_resistance_kohm': None,
+ 'neg_resistance_raw': 60000,
+ 'neg_resistance_state': 'infinite',
+ 'pos_resistance_kohm': None,
+ 'pos_resistance_raw': 60000,
+ 'pos_resistance_state': 'infinite',
+ 'resistance_valid': True,
+ 'reverse_polarity': False,
+ 'unit_id': 1,
+ 'version': 'V2402',
+ 'version_raw': 9218,
+ 'voltage_raw': 4966,
+ 'voltage_v': 496.6}
+
+IMD2 status:
+{'monitoring_enabled': True,
+ 'neg_resistance_kohm': None,
+ 'neg_resistance_raw': 65535,
+ 'neg_resistance_state': 'invalid',
+ 'pos_resistance_kohm': None,
+ 'pos_resistance_raw': 65535,
+ 'pos_resistance_state': 'invalid',
+ 'resistance_valid': False,
+ 'reverse_polarity': False,
+ 'unit_id': 2,
+ 'version': 'V2402',
+ 'version_raw': 9218,
+ 'voltage_raw': 0,
+ 'voltage_v': 0.0}
+No response received after 3 retries, continue with next request
+No response received after 3 retries, continue with next request
+
+Disable CH1 monitoring: failed
+Disable CH2 monitoring: failed
+--------------------------------
+Attempt to enable insulation monitoring
+--------------------------------
+^CTraceback (most recent call last):
+  File "/root/IMD/p1/main.py", line 85, in <module>
+    main()
+  File "/root/IMD/p1/main.py", line 47, in main
+    register_1 = client._write_single_register(IMD_1_ADDRESS , client.REG_INSULATION_CONTROL, 0x0011)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/IMD/p1/imd_version.py", line 122, in _write_single_register
+    response = self._client.write_register(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/site-packages/pymodbus/client/mixin.py", line 170, in write_register
+    return self.execute(no_response_expected, pdu_reg.WriteSingleRegisterRequest(address=address, registers=[value], dev_id=device_id))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/site-packages/pymodbus/client/base.py", line 190, in execute
+    return self.transaction.sync_execute(no_response_expected, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/site-packages/pymodbus/transaction/transaction.py", line 132, in sync_execute
+    response = self.sync_get_response(request.dev_id, request.transaction_id)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/site-packages/pymodbus/transaction/transaction.py", line 86, in sync_get_response
+    if not (data := self.sync_client.recv(None)):
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/site-packages/pymodbus/client/serial.py", line 295, in recv
+    size = self._wait_for_data()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/site-packages/pymodbus/client/serial.py", line 287, in _wait_for_data
+    time.sleep(self._recv_interval)
+KeyboardInterrupt
+
+root@phyboard-pollux-imx8mp-3:p1#
+root@phyboard-pollux-imx8mp-3:p1#
+root@phyboard-pollux-imx8mp-3:p1# python3 main.py
+--------------------------------
+Attempt to enable insulation monitoring
+--------------------------------
+No response received after 3 retries, continue with next request
+Repeating....
+No response received after 3 retries, continue with next request
+No response received after 3 retries, continue with next request
+Enable CH1 monitoring: failed
+Enable CH2 monitoring: failed
+
+IMD1 status:
+{'monitoring_enabled': True,
+ 'neg_resistance_kohm': None,
+ 'neg_resistance_raw': 60000,
+ 'neg_resistance_state': 'infinite',
+ 'pos_resistance_kohm': None,
+ 'pos_resistance_raw': 60000,
+ 'pos_resistance_state': 'infinite',
+ 'resistance_valid': True,
+ 'reverse_polarity': False,
+ 'unit_id': 1,
+ 'version': 'V2402',
+ 'version_raw': 9218,
+ 'voltage_raw': 4972,
+ 'voltage_v': 497.2}
+
+IMD2 status:
+{'monitoring_enabled': True,
+ 'neg_resistance_kohm': 5834.0,
+ 'neg_resistance_raw': 5834,
+ 'neg_resistance_state': 'valid',
+ 'pos_resistance_kohm': 6317.0,
+ 'pos_resistance_raw': 6317,
+ 'pos_resistance_state': 'valid',
+ 'resistance_valid': True,
+ 'reverse_polarity': False,
+ 'unit_id': 2,
+ 'version': 'V2402',
+ 'version_raw': 9218,
+ 'voltage_raw': 3983,
+ 'voltage_v': 398.3}
+No response received after 3 retries, continue with next request
+No response received after 3 retries, continue with next request
+
+Disable CH1 monitoring: failed
+Disable CH2 monitoring: failed
+--------------------------------
+Attempt to enable insulation monitoring
+--------------------------------
+No response received after 3 retries, continue with next request

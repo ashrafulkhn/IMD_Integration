@@ -22,6 +22,7 @@ class IMDChannelStatus:
     resistance_valid: Optional[bool]
     version_raw: Optional[int]
     version: Optional[str]
+    address_raw: Optional[int] = None
 
 
     def as_dict(self) -> Dict[str, Any]:
@@ -40,6 +41,7 @@ class IMDChannelStatus:
             "resistance_valid": self.resistance_valid,
             "version_raw": self.version_raw,
             "version": self.version,
+            "address_raw": self.address_raw,
             }
             
         
@@ -145,10 +147,12 @@ class IMDClient:
         voltage_raw = voltage_regs[0] if voltage_regs else None
         voltage_v = (voltage_raw / 10.0) if voltage_raw is not None else None
 
+
         # Positive insulation resistance
         pos_regs = self._read_holding_registers(unit_id, self.REG_POS_RESISTANCE, 1)
         pos_raw = pos_regs[0] if pos_regs else None
         pos_state, pos_kohm = self._interpret_resistance(pos_raw)
+
 
         # Negative insulation resistance
         neg_regs = self._read_holding_registers(unit_id, self.REG_NEG_RESISTANCE, 1)
@@ -159,9 +163,18 @@ class IMDClient:
         version_regs = self._read_holding_registers(unit_id, self.REG_VERSION, 1)
         version_raw = version_regs[0] if version_regs else None
         version = self._interpret_version(version_raw)
+        
+        
         # Status bits
         status_regs = self._read_holding_registers(unit_id, self.REG_STATUS, 1)
         status_raw = status_regs[0] if status_regs else None
+        
+        
+        #address for testing
+        # address_regs = self._read_holding_registers(unit_id, self.REG_ADDRESS, 1)
+        # address_raw = address_regs[0] if address_regs else None
+        
+        
         reverse_polarity = None
         monitoring_enabled = None
         resistance_valid = None
@@ -169,6 +182,7 @@ class IMDClient:
             reverse_polarity = bool((status_raw >> 7) & 0x1)
             monitoring_enabled = bool((status_raw >> 2) & 0x1)
             resistance_valid = bool((status_raw >> 1) & 0x1)
+
 
         return IMDChannelStatus(
             unit_id=unit_id,
@@ -185,7 +199,9 @@ class IMDClient:
             resistance_valid=resistance_valid,
             version_raw=version_raw,
             version=version,
+            # address_raw=address_raw,
         )
+
 
     def enable_insulation_monitoring(self, unit_id: int) -> bool:
         """

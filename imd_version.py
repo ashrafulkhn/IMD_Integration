@@ -89,6 +89,7 @@ class IMDClient:
             timeout=timeout,
         )
 
+
     def connect(self) -> bool:
         """Open the serial connection."""
         return bool(self._client.connect())

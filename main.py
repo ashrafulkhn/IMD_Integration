@@ -9,7 +9,7 @@ from modules.contants import IMDStatus
 IMD_1_ADDRESS_current = 1
 IMD_1_ADDRESS_new = 6
 IMD_2_ADDRESS_current = 2
-IMD_2_ADDRRESS_new = 4
+IMD_2_ADDRESS_new = 4
 
 
 
@@ -48,7 +48,7 @@ def main() -> None:
     write_success = client._write_single_register(
         IMD_2_ADDRESS_current,
         client.REG_ADDRESS,
-        IMD_2_ADDRRESS_new,
+        IMD_2_ADDRESS_new,
     )
     print(f"[INFO] IMD2 address write success: {write_success}")
 
@@ -70,16 +70,19 @@ def main() -> None:
                 )
                 client.enable_insulation_monitoring(IMD_1_ADDRESS_new)
 
+
             # Read current status from IMD2.
-            status_2 = client.read_channel_status(IMD_2_ADDRRESS_new)
+            status_2 = client.read_channel_status(IMD_2_ADDRESS_new)
             if not imd2_status.get("monitoring_enabled", False):
                 print("Enabling insulation monitoring for IMD2...")
                 client._write_single_register(
-                    IMD_2_ADDRRESS_new,
+                    IMD_2_ADDRESS_new,
                     client.REG_INSULATION_CONTROL,
                     0x0012,
                 )
-                client.enable_insulation_monitoring(IMD_2_ADDRRESS_new)
+                client.enable_insulation_monitoring(IMD_2_ADDRESS_new)
+
+
 
             # Request and display detailed status for each IMD channel.
             print("========== IMD1 status: ==========")
@@ -88,7 +91,7 @@ def main() -> None:
             pprint(IMDStatus.IMD1Status)
 
             print("========== IMD2 status: ==========")
-            imd2_status = client.IMD2StatusRequest(unit_id=IMD_2_ADDRRESS_new)
+            imd2_status = client.IMD2StatusRequest(unit_id=IMD_2_ADDRESS_new)
             IMDStatus.IMD2Status = imd2_status
             pprint(IMDStatus.IMD2Status)
 
@@ -98,7 +101,7 @@ def main() -> None:
     finally:
         # Disable insulation monitoring and close the connection on exit.
         client.disable_insulation_monitoring(IMD_1_ADDRESS_new)
-        client.disable_insulation_monitoring(IMD_2_ADDRRESS_new)
+        client.disable_insulation_monitoring(IMD_2_ADDRESS_new)
         client.close()
         
                    

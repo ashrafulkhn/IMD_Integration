@@ -27,7 +27,7 @@ def main() -> None:
                        timeout=0.3)   
 
     if not client.connect():
-        print("connection failed")
+        print("connection failed. You dont want retry again")
         return
     
     imd1_status: dict = {}

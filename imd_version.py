@@ -154,7 +154,7 @@ class IMDClient:
         pos_raw = pos_regs[0] if pos_regs else None
         pos_state, pos_kohm = self._interpret_resistance(pos_raw)
 
-
+        
         # Negative insulation resistance
         neg_regs = self._read_holding_registers(unit_id, self.REG_NEG_RESISTANCE, 1)
         neg_raw = neg_regs[0] if neg_regs else None
@@ -202,7 +202,7 @@ class IMDClient:
             version=version,
             # address_raw=address_raw,
         )
-
+        
 
     def enable_insulation_monitoring(self, unit_id: int) -> bool:
         """

@@ -7,10 +7,9 @@ from modules.contants import IMDStatus
 # Current and new unit addresses for both IMD devices.
 # The script rewrites each device address before monitoring.
 IMD_1_ADDRESS_current = 1
-IMD_1_ADDRESS_new = 6
+IMD_1_ADDRESS_new = 4
 IMD_2_ADDRESS_current = 2
-IMD_2_ADDRESS_new = 4
-
+IMD_2_ADDRESS_new = 5
 
 
 def main() -> None:

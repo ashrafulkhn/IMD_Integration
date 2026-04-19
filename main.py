@@ -5,9 +5,8 @@ from modules.contants import IMDStatus
 
 import time
 
-
-IMD_1_ADDRESS = 1
-IMD_2_ADDRESS = 2
+IMD_1_ADDRESS = 3
+IMD_2_ADDRESS = 4
 
 def main() -> None:
     """
@@ -24,7 +23,7 @@ def main() -> None:
                        parity="N",
                        stopbits=1,
                        bytesize=8,
-                       timeout=0.3)   
+                       timeout=0.5)
 
     if not client.connect():
         print("connection failed. You dont want retry again")
@@ -36,74 +35,38 @@ def main() -> None:
 
     try:
         while True:
-            # for i in range(3): 
-            # print("--------------------------------")
-            # print(end= " ")
-            # print("Attempt to enable insulation monitoring")
-            # print("--------------------------------")
-
             #  Enable insulation monitoring on both channels
-            
-            status_1 = client.read_channel_status(IMD_1_ADDRESS) 
+            pprint(f"Before Enabling IMD1: {imd1_status}")
+            pprint(f"Before Enabling IMD2: {imd2_status}")
             if not imd1_status.get("monitoring_enabled", False):
                 print("Enabling insulation monitoring for IMD1...")
-                register_1 = client._write_single_register(IMD_1_ADDRESS , client.REG_INSULATION_CONTROL, 0x0011)
-                # register_2 = client._write_single_register(IMD_2_ADDRESS , client.REG_INSULATION_CONTROL, 0x0012)
-                            
-                enabled_ch1 = client.enable_insulation_monitoring(IMD_1_ADDRESS)
-                # enabled_ch2 = client.enable_insulation_monitoring(IMD_2_ADDRESS)
-                
-                # if client.enable_insulation_monitoring(IMD_1_ADDRESS):
-                #     print("Successfully enabled insulation monitoring for IMD1.")
-                # else:
-                #     print("Failed to enable insulation monitoring for IMD1.")
-            
+                client.enable_insulation_monitoring(IMD_1_ADDRESS)
+                time.sleep(1.0)  # let IMD1 complete first measurement cycle
+
             if not imd2_status.get("monitoring_enabled", False):
                 print("Enabling insulation monitoring for IMD2...")
-                # register_1 = client._write_single_register(IMD_1_ADDRESS , client.REG_INSULATION_CONTROL, 0x0011)
-                register_2 = client._write_single_register(IMD_2_ADDRESS , client.REG_INSULATION_CONTROL, 0x0012)
-                            
-                # enabled_ch1 = client.enable_insulation_monitoring(IMD_1_ADDRESS)
-                enabled_ch2 = client.enable_insulation_monitoring(IMD_2_ADDRESS)
-                
-                # if client.enable_insulation_monitoring(IMD_2_ADDRESS):
-                #     print("Successfully enabled insulation monitoring for IMD2.")
-                # else:
-                #     print("Failed to enable insulation monitoring for IMD2.")
+                client.enable_insulation_monitoring(IMD_2_ADDRESS)
+                time.sleep(1.0)  # let IMD2 complete first measurement cycle
 
-                                                                                                                                                                
-            # print(f"Enable CH1 monitoring: {'success' if enabled_ch1 else 'failed'}")
-            # print(f"Enable CH2 monitoring: {'success' if enabled_ch2 else 'failed'}")
-
-    # try:
-        # while True:# Read full status for IMD1 (address 1) and IMD2 (address 2)
             print("========== IMD1 status: ==========")
             imd1_status = client.IMD1StatusRequest(unit_id=IMD_1_ADDRESS)
             IMDStatus.IMD1Status = imd1_status
-            # pprint(imd1_status)
-            pprint(IMDStatus.IMD1Status)
+            pprint(f"After Enabling IMD1: {IMDStatus.IMD1Status}")
+
+            time.sleep(0.5)  # inter-slave gap on RS-485 bus
 
             print("========== IMD2 status: ==========")
             imd2_status = client.IMD2StatusRequest(unit_id=IMD_2_ADDRESS)
             IMDStatus.IMD2Status = imd2_status
             # pprint(imd2_status)
-            pprint(IMDStatus.IMD2Status)
+            pprint(f"After Enabling IMD2: {IMDStatus.IMD2Status}")
 
-            time.sleep(0.2)
-
-        # # Example: disable monitoring again
-        #     disabled_ch1 = client.disable_insulation_monitoring(IMD_1_ADDRESS)
-        #     disabled_ch2 = client.disable_insulation_monitoring(IMD_2_ADDRESS)
-            
-            # print(f"\nDisable CH1 monitoring: {'success' if disabled_ch1 else 'failed'}")
-            # print(f"Disable CH2 monitoring: {'success' if disabled_ch2 else 'failed'}")
+            time.sleep(20)
  
     finally:
-        disabled_ch1 = client.disable_insulation_monitoring(IMD_1_ADDRESS)
-        disabled_ch2 = client.disable_insulation_monitoring(IMD_2_ADDRESS)
+        client.disable_insulation_monitoring(IMD_1_ADDRESS)
+        client.disable_insulation_monitoring(IMD_2_ADDRESS)
         client.close()
         
-                   
-
 if __name__ == "__main__":
     main()

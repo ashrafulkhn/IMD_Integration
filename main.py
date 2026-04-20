@@ -5,6 +5,7 @@ from modules.contants import IMDStatus
 
 import time
 
+
 IMD_1_ADDRESS = 3
 IMD_2_ADDRESS = 4
 
@@ -18,7 +19,7 @@ def main() -> None:
     # port = "COM11"  # for windows
     port = "/dev/ttymxc1"  # for linux
 
-    client = IMDClient(port="/dev/ttymxc1",  #com11 using it is for windows
+    client = IMDClient(port=port,  #com11 using it is for windows
                        baudrate=9600,
                        parity="N",
                        stopbits=1,
@@ -61,7 +62,7 @@ def main() -> None:
             # pprint(imd2_status)
             pprint(f"After Enabling IMD2: {IMDStatus.IMD2Status}")
 
-            time.sleep(20)
+            time.sleep(2)
  
     finally:
         client.disable_insulation_monitoring(IMD_1_ADDRESS)

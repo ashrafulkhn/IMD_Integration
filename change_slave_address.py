@@ -50,6 +50,8 @@ def change_and_verify_address(client, current_addr, new_addr, device_name):
             1
         )
         
+        
+        
         if version_regs:
             version_raw = version_regs[0]
             print(f"    ✓ Address change verified!")
@@ -89,7 +91,7 @@ def main() -> None:
         parity="N",
         stopbits=1,
         bytesize=8,
-        timeout=0.3,
+        timeout=1,
     )
 
     # Open the serial/Modbus connection to the IMD device.

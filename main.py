@@ -7,10 +7,10 @@ from modules.contants import IMDStatus
 
 import time
 
-IMD_1_ADDRESS_current = 1
-IMD_1_ADDRESS_new = 6
-IMD_2_ADDRESS_current = 2
-IMD_2_ADDRRESS_new = 4
+IMD_1_ADDRESS_current = 3
+IMD_1_ADDRESS_new = 5
+IMD_2_ADDRESS_current = 4
+IMD_2_ADDRRESS_new = 6
 
 
 def main() -> None:
@@ -50,13 +50,13 @@ def main() -> None:
             if not imd1_status.get("monitoring_enabled", False):
                 print("Enabling insulation monitoring for IMD1...")
                 register_1 = client._write_single_register(IMD_1_ADDRESS_new , client.REG_INSULATION_CONTROL, 0x0011)
-                enabled_ch1 = client.enable_insulation_monitoring(IMD_1_ADDRESS_new)
+                # enabled_ch1 = client.enable_insulation_monitoring(IMD_1_ADDRESS_new)
 
             status_2 = client.read_channel_status(IMD_2_ADDRRESS_new)   
             if not imd2_status.get("monitoring_enabled", False):
                 print("Enabling insulation monitoring for IMD2...")
                 register_2 = client._write_single_register(IMD_2_ADDRRESS_new , client.REG_INSULATION_CONTROL, 0x0012)
-                enabled_ch2 = client.enable_insulation_monitoring(IMD_2_ADDRRESS_new)
+                # enabled_ch2 = client.enable_insulation_monitoring(IMD_2_ADDRRESS_new)
                 
 
             print("========== IMD1 status: ==========")
@@ -70,7 +70,7 @@ def main() -> None:
             IMDStatus.IMD2Status = imd2_status
             pprint(IMDStatus.IMD2Status)
 
-            time.sleep(0.2)
+            time.sleep(0.5)
 
     finally:
         disabled_ch1 = client.disable_insulation_monitoring(IMD_1_ADDRESS_new)

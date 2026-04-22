@@ -131,7 +131,38 @@ class IMDClient:
             return False
 
         return True
+    
+    def read_sensor(self, slave_id):
+        try:
+            response = self._read_holding_registers(
+                unit_id=slave_id,
+                address=0x0000,
+                count=4
+                )
 
+            # if response.isError():
+            #     print("Sensor  No response")
+            #     return None
+
+            humidity_raw = response[0]
+            temperature_raw = response[1]
+
+            # Humidity (simple)
+            humidity = humidity_raw / 10.0
+
+            # Temperature (with negative handling)
+            if temperature_raw > 32767:
+                temperature_raw = temperature_raw - 65536
+
+            temperature = temperature_raw / 10.0
+
+            return humidity, temperature
+
+        except Exception as e:
+            print("Sensor error:", e)
+            return None
+    
+    
     # ---------- public API ----------
 
     def read_channel_status(self, unit_id: int) -> IMDChannelStatus:

@@ -8,6 +8,7 @@ IMD_1_ADDRESS_current = 1
 IMD_1_ADDRESS_new = 4
 IMD_2_ADDRESS_current = 2
 IMD_2_ADDRESS_new = 5
+TEMPERATURE_SENSOR_ID = 7
 
 # Retry configuration
 MAX_RETRIES = 3
@@ -50,7 +51,12 @@ def change_and_verify_address(client, current_addr, new_addr, device_name):
             1
         )
         
-        
+        # def convert_temperature(raw):
+        # # Convert 16-bit signed (two's complement)
+        #     if raw > 32767:
+        #        raw = raw - 65536
+
+        #     return raw / 10.0
         
         if version_regs:
             version_raw = version_regs[0]
@@ -63,7 +69,7 @@ def change_and_verify_address(client, current_addr, new_addr, device_name):
             if attempt < MAX_RETRIES:
                 print(f"    Retrying...")
                 time.sleep(RETRY_DELAY)
-    
+
     # All retries exhausted
     print(f"    ✗ FAILED: {device_name} address change could not be verified after {MAX_RETRIES} attempts")
     return False, None

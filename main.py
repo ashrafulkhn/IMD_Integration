@@ -6,8 +6,10 @@ from modules.contants import IMDStatus
 import time
 
 
-IMD_1_ADDRESS = 3
-IMD_2_ADDRESS = 4
+IMD_1_ADDRESS = 1
+IMD_2_ADDRESS = 2
+SENSOR_ID = 7
+
 
 def main() -> None:
     """
@@ -37,8 +39,8 @@ def main() -> None:
     try:
         while True:
             #  Enable insulation monitoring on both channels
-            pprint(f"Before Enabling IMD1: {imd1_status}")
-            pprint(f"Before Enabling IMD2: {imd2_status}")
+            # pprint(f"Before Enabling IMD1: {imd1_status}")
+            # pprint(f"Before Enabling IMD2: {imd2_status}")
             if not imd1_status.get("monitoring_enabled", False):
                 print("Enabling insulation monitoring for IMD1...")
                 client.enable_insulation_monitoring(IMD_1_ADDRESS)
@@ -62,7 +64,10 @@ def main() -> None:
             # pprint(imd2_status)
             pprint(f"After Enabling IMD2: {IMDStatus.IMD2Status}")
 
+            read_sensor = client.read_sensor(slave_id= SENSOR_ID)
+            print(read_sensor)
             time.sleep(2)
+    
  
     finally:
         client.disable_insulation_monitoring(IMD_1_ADDRESS)

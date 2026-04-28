@@ -2,8 +2,9 @@ from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
 
-from pymodbus.client import ModbusSerialClient
+from pymodbus.client.sync import ModbusSerialClient
 from pymodbus.exceptions import ModbusException
+
 
 
 @dataclass
@@ -22,6 +23,7 @@ class IMDChannelStatus:
     resistance_valid: Optional[bool]
     version_raw: Optional[int]
     version: Optional[str]
+
 
 
     def as_dict(self) -> Dict[str, Any]:
@@ -140,9 +142,9 @@ class IMDClient:
                 count=4
                 )
 
-            # if response.isError():
-            #     print("Sensor  No response")
-            #     return None
+            if response.isError():
+                print("Sensor  No response")
+                return None
 
             humidity_raw = response[0]
             temperature_raw = response[1]

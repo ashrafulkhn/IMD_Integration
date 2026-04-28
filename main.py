@@ -6,9 +6,11 @@ from modules.contants import IMDStatus
 import time
 
 
+
 IMD_1_ADDRESS = 1
 IMD_2_ADDRESS = 2
 SENSOR_ID = 7
+
 
 
 def main() -> None:
@@ -22,6 +24,7 @@ def main() -> None:
     port = "/dev/ttymxc1"  # for linux
 
     client = IMDClient(port=port,  #com11 using it is for windows
+                    #    method= "rtu",
                        baudrate=9600,
                        parity="N",
                        stopbits=1,

@@ -22,6 +22,10 @@ ser = serial.Serial(
     bytesize=8,
     timeout=2
 )
+from datatype import read_float_word_swap
+
+
+
 # =====================================================
 # MAIN FUNCTION
 # =====================================================
@@ -45,7 +49,7 @@ def main():
             # enable_monitoring()
             frame = bytes([0x02, 0x06, 0x01, 0x02, 0x00, 0x12, 0xA9, 0xC8])
             ser.write(frame)
-
+                                 
             time.sleep(2)
 
             # -----------------------------------------
@@ -84,7 +88,17 @@ def main():
             ac_data = read_ac_meter(client)
 
             print_ac_meter_data(ac_data)
-
+            
+            # -----------------------------------------
+            # READ DATA TYPE
+            # -----------------------------------------
+            
+            data_type = read_float_word_swap()
+            
+            print(print("\n======= DATATTYPE ======="))
+            
+            print(data_type)
+            
     finally:
 
         # -----------------------------------------

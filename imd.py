@@ -36,6 +36,8 @@ NEGATIVE_RES_REGISTER = 0x0013
 
 ENABLE_REGISTER = 0x0102
 
+ADDRESS = 0X003C
+
 
 # =====================================================
 # CREATE MODBUS CLIENT

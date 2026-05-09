@@ -12,6 +12,8 @@ import struct
 
 AC_METER_SLAVE_ID = 5
 
+ADDRESS = 0X003C
+
 AC_REGISTERS = {
 
     # S.No : (Name, Register)
@@ -38,25 +40,46 @@ AC_REGISTERS = {
 # CONVERT 2 REGISTERS TO FLOAT
 # =====================================================
 
+# =====================================================
+# FLOAT WORD SWAP CONVERSION
+# =====================================================
+
 def registers_to_float(registers):
 
     """
-    Convert Modbus 2-register float value.
+    Convert:
+    Float (32-bit little endian byte swap)
     """
 
     if len(registers) != 2:
         return None
 
-    raw = struct.pack(
-        '>HH',
-        registers[0],
-        registers[1]
-    )
+    try:
 
-    return round(
-        struct.unpack('>f', raw)[0],
-        2
-    )
+        # Word swap
+        word1 = registers[0]
+        word2 = registers[1]
+
+        swapped = struct.pack(
+            '>HH',
+            word2,
+            word1
+        )
+
+        value = struct.unpack(
+            '>f',
+            swapped
+        )[0]
+
+        return round(value, 2)
+
+    except Exception as e:
+
+        logging.error(
+            f"Float conversion error: {e}"
+        )
+
+        return None
 
 
 # =====================================================

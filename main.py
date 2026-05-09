@@ -22,9 +22,11 @@ ser = serial.Serial(
     bytesize=8,
     timeout=2
 )
-from datatype import read_float_word_swap
+from ac_meter import(registers_to_float)
 
+# from datatype import read_float_word_swap
 
+ADDRESS = 0X003C
 
 # =====================================================
 # MAIN FUNCTION
@@ -93,25 +95,46 @@ def main():
             # READ DATA TYPE
             # -----------------------------------------
             
-            data_type = read_float_word_swap()
+            # data_type = read_float_word_swap(float)
             
-            print(print("\n======= DATATTYPE ======="))
+            # print(print("\n======= DATATTYPE ======="))
             
-            print(data_type)
+            # print(data_type)
+            # Check Modbus response before accessing registers
+            
+        if response.isError():
+
+            logging.error(
+                f"Modbus read failed for address {address}"
+            )
+
+            return None
+
+        # Check registers attribute exists
+        if not hasattr(response, "registers"):
+
+            logging.error(
+                f"No register data received for address {address}"
+            )
+
+            return None
+
+        raw_data = registers_to_float(
+            response.registers
+        )
+
+        return raw_data
             
     finally:
-
-        # -----------------------------------------
-        # CLOSE CONNECTION
-        # -----------------------------------------
 
         close_modbus()
 
 
-# =====================================================
-# PROGRAM ENTRY
-# =====================================================
+
 
 if __name__ == "__main__":
 
     main()
+    
+
+   
